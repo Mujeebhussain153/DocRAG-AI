@@ -1,0 +1,41 @@
+services:
+# Everything that runs inside of a Docker is a Service like postgres, qdrant etc
+  postgres:
+    image: postgres:16
+
+    container_name: docrag_postgres
+
+    restart: always
+    # These become environment variables inside the container.
+    # PostgreSQL reads them when it starts for the first time to create the initial user, password, and database.
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: documind
+
+    ports:
+    # Machine Port to Docker Port
+      - "5432:5432"
+
+    # Volumes are like a hard drive attached to the container.
+    # Delete a Container without volume, data also disappears but with volume data survives
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  qdrant:
+    image: qdrant/qdrant:latest
+
+    container_name: docrag_qdrant
+
+    restart: always
+
+    ports:
+      - "6333:6333"
+
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+volumes:
+  postgres_data:
+
+  qdrant_data:
