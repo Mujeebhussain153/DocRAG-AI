@@ -1,6 +1,6 @@
 from uuid import uuid4
 from sqlalchemy import String, Boolean, DateTime
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 
 from app.db.base import Base
@@ -11,6 +11,12 @@ class User(Base):
     """
 
     __tablename__ = "users"
+
+    documents = relationship(
+        "Document",
+        back_populates="owner",
+        cascade="all, delete-orphan"
+    )
 
     # Primary Key
     id: Mapped[str] = mapped_column(
