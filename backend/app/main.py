@@ -10,7 +10,6 @@ async def lifespan(app: FastAPI):
     """
     Runs once when the application starts.
     """
-    Base.metadata.create_all(bind=engine)
 
     yield
 
