@@ -20,7 +20,7 @@ class User(Base):
 
     # Primary Key
     id: Mapped[str] = mapped_column(
-        String,
+        String(36),
         primary_key = True,
         default = lambda :str(uuid4())
     )
@@ -43,7 +43,7 @@ class User(Base):
     )
     # Never store raw passwords!
     password_hash: Mapped[str] = mapped_column(
-        String,
+        String(255),
         nullable=False
     )
 

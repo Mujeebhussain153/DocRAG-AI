@@ -39,6 +39,12 @@ class Document(Base):
         server_default=func.now()
     )
 
+    status: Mapped[str] = mapped_column(
+        String(50),
+        default="UPLOADED",
+        nullable=False
+    )
+
     # Python relationship
     owner = relationship(
         "User",
