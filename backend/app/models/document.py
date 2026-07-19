@@ -1,6 +1,6 @@
 from uuid import uuid4
 from app.db.base import Base
-from sqlalchemy import ForeignKey, String, DateTime
+from sqlalchemy import ForeignKey, String, DateTime, BigInteger
 from sqlalchemy.sql import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -18,9 +18,24 @@ class Document(Base):
         default = lambda: str(uuid4())
     )
 
-    filename: Mapped[str] = mapped_column(
+    original_filename: Mapped[str] = mapped_column(
         String(255),
         nullable=False
+    )
+
+    stored_filename: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False
+    )
+
+    extension: Mapped[str] = mapped_column(
+        String(10),
+        nullable=False
+    )
+
+    file_size: Mapped[int] = mapped_column(
+        BigInteger,
+        nullable= False
     )
 
     storage_path: Mapped[str] = mapped_column(
@@ -39,10 +54,26 @@ class Document(Base):
         server_default=func.now()
     )
 
+    updated_at: Mapped[DateTime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate= func.now()
+    )
+
     status: Mapped[str] = mapped_column(
         String(50),
         default="UPLOADED",
         nullable=False
+    )
+
+    error_message: Mapped[str] = mapped_column(
+        String,
+        nullable=True
+    )
+
+    mime_type: Mapped[str] = mapped_column(
+        String(100),
+        nullable= False
     )
 
     # Python relationship
