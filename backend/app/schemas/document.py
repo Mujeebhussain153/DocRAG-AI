@@ -1,5 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel
+from dataclasses import dataclass
 
 
 class DocumentUploadResponse(BaseModel):
@@ -13,4 +14,15 @@ class DocumentUploadResponse(BaseModel):
     model_config = {
         "from_attributes": True
     }
+
+
+@dataclass
+class ExtractedPage:
+    page_number: int
+    text: str
+    contains_text: bool
+
+@dataclass
+class ExtractedDocument:
+    pages: list[ExtractedPage]
 
