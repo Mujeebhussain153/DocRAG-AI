@@ -1,7 +1,8 @@
 from sqlalchemy.orm import Session
 from pathlib import Path
 from uuid import uuid4
-import aiofiles
+import aiofiles, asyncio
+from app.core.document_status import DocumentStatus
 from app.models.document import Document
 from app.repositories.document_repository import DocumentRepository
 from fastapi import UploadFile, HTTPException
@@ -69,7 +70,7 @@ class DocumentService:
                 storage_path = str(saved_path),
                 file_size = saved_path.stat().st_size,
                 mime_type = file.content_type,
-                status = "UPLOADED",
+                status = DocumentStatus.UPLOADED.value,
                 error_message = None,
                 user_id = user_id
             )
@@ -116,4 +117,13 @@ class DocumentService:
                 await out_file.write(chunk)
         
         return destination
-        
+    
+    async def process_document(self, document_id:str):
+        """
+        process the uploaded document
+        """
+        print(f"Processing {document_id}")
+
+        await asyncio.sleep(5)
+
+        print("Finished")

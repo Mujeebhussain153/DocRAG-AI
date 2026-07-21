@@ -5,8 +5,10 @@ class DocumentRepository:
     def create(
             self,
             db: Session,
-            document: Document,      
+            document: Document,
+            status: str      
     ) -> Document:
+        document.status = status
         
         db.add(document)
 
