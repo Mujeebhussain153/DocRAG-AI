@@ -24,14 +24,14 @@ class PDFService:
                 page_text = page.get_text()
                 pages.append(
                     ExtractedPage(
-                        page_number=idx,
+                        page_number=idx+1,
                         text=page_text,
                         contains_text=bool(page_text.strip()) 
                     )
                 )
 
             return ExtractedDocument(
-                text="\n".join(pages),
+                text="\n".join(str(item) for item in pages),
                 page_count=len(pages),
                 contains_text=contains_text
             )
